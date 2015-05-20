@@ -1,0 +1,16 @@
+<?php
+include "connect.php";
+$vConn = fConnect();
+$vSql = "Select tS.aDebut, tS.aFin, tS.pkNum, count(tG.pkLogin) from tSession as tS left outer join tGroupe as tG on tG.session = tS.pkNum group by tS.aDebut, tS.aFin, tS.pkNum Having count(tG.pkLogin) < 6";
+$vQuery = pg_query($vConn, $vSql);
+echo ("<table border = \"2\">");
+echo("<tr><th>'Numero'</th><th>'Date Debut'</th><th>'Date Fin'</th><th>'Nombre de groupes'</th></tr>");
+while($vResult = pg_fetch_array($vQuery)):
+	$vNum = $vResult['tS.pkNum'];
+	$vDebut = $vResult['tS.aDebut'];
+	$vFin = $vResult['tS.aFin'];
+	$vNbG = $vResult['count'];
+	echo(" <tr><td>'$vNum'</td><td>'$vDebut'</td><td>'$vFin'</td><td>'$vNbG'</td></tr>");
+endwhile;
+
+?>

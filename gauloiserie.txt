@@ -1,0 +1,22 @@
+Potion (#Nom:string, Effet:string, Durée:integer)
+Ingrédient (#Nom:string, Localisation:string)
+Composition (#NomP=>Potion(Nom), #NomI=>Ingrédient(Nom), Quantité:integer)
+
+
+SELECT NomI
+FROM Composition 
+WHERE NomP = 'Potion Magique'
+
+/*SELECT I.Nom
+FROM Ingredient I Left Outer Join Composition C
+ON I.Nom = C.NomI
+WHERE C.NomI IS NULL*/
+
+SELECT Nom FROM Ingredient
+EXCEPT
+SELECT NomI FROM Composition
+
+
+SELECT NomP,  COUNT(NomI)
+From Composition
+Group By NomP
